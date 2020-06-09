@@ -77,7 +77,7 @@ public class CommandEvent extends GuildMessageReceivedEvent {
                 this.rawMessage = raw;
                 this.args = splitArgs(raw);
                 this.joinedArgs = String.join(" ", this.args);
-                this.rawArgs = raw.replaceFirst(prefix + this.label + "\\s+", "");
+                this.rawArgs = raw.replaceAll(prefix + label , "");
             }
         }
 
