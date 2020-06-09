@@ -11,7 +11,7 @@ public interface ICommand {
 
     Message DEFAULT_INFO = new MessageBuilder().setContent("Nenhuma informação, descrição ou ajuda definida para este comando.").build();
 
-    void onCommand(final CommandEvent event, final String[] args);
+    void onCommand(final CommandEvent event, final String content, final String[] args);
 
 
     default Message info(Member member, String prefix, Set<String> labels) {

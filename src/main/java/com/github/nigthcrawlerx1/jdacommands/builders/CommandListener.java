@@ -39,7 +39,8 @@ class CommandListener extends ListenerAdapter {
                 CommandEvent.Command cmd = CommandEvent.parseCommand(raw, prefix, settings);
                 if (cmd.getExecutor() != null) {
                     try {
-                        cmd.getExecutor().onCommand(new CommandEvent(event.getJDA(), event.getResponseNumber(), event.getMessage(), cmd, settings),
+                        cmd.getExecutor().onCommand(new CommandEvent(event.getJDA(), event.getResponseNumber(), event.getMessage(), cmd, settings)
+                                 , cmd.getRawArgs(),
                                  cmd.getArgs());
                     } catch (Throwable t) {
                         CommandBuilder.LOGGER.warn("Um dos comandos teve uma exceção não capturada:", t);
