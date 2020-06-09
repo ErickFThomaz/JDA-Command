@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.internal.utils.Checks;
@@ -27,6 +28,16 @@ public class CommandEvent extends GuildMessageReceivedEvent {
     }
 
     public void sendMessage(String message){
+        Checks.check(getGuild().getSelfMember().hasPermission(Permission.MESSAGE_WRITE) , "Mandando mensagem no canal");
+        getChannel().sendMessage(message).queue();
+    }
+
+    public void sendMessage(Message message){
+        Checks.check(getGuild().getSelfMember().hasPermission(Permission.MESSAGE_WRITE) , "Mandando mensagem no canal");
+        getChannel().sendMessage(message).queue();
+    }
+
+    public void sendMessage(MessageEmbed message){
         Checks.check(getGuild().getSelfMember().hasPermission(Permission.MESSAGE_WRITE) , "Mandando mensagem no canal");
         getChannel().sendMessage(message).queue();
     }
