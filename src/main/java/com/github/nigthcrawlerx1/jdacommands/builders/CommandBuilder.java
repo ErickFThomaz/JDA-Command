@@ -110,7 +110,7 @@ public class CommandBuilder {
      * @throws CommandSetException if the given label is invalid (contains spaces)
      * @deprecated This method is deprecated and thus not supported anymore. Help Commands are now registered like any other command,
      * i.e. using CommandSettings#put. To use the default implementation of the help command, register an instance of DefaultHelpCommand.
-     * @see DefaultHelpCommand
+     * @see com.github.nigthcrawlerx1.jdacommands.commands.help.DefaultHelpCommand
      */
     @Deprecated
     public CommandBuilder addHelpLabel(String label) {
@@ -128,7 +128,7 @@ public class CommandBuilder {
      * @return The current object. This is to use fluent interface.
      * @deprecated This method is deprecated and thus not supported anymore. Help Commands are now registered like any other command,
      * i.e. using CommandSettings#put. To use the default implementation of the help command, register an instance of DefaultHelpCommand.
-     * @see DefaultHelpCommand
+     * @see com.github.nigthcrawlerx1.jdacommands.commands.help.DefaultHelpCommand
      */
     @Deprecated
     public CommandBuilder addHelpLabels(@Nonnull String... labels) {
@@ -144,7 +144,7 @@ public class CommandBuilder {
      * @throws CommandSetException if one of the labels is not a valid label.
      * @deprecated  This method is deprecated and thus not supported anymore. Help Commands are now registered like any other command,
      * i.e. using CommandSettings#put. To use the default implementation of the help command, register an instance of DefaultHelpCommand.
-     * @see DefaultHelpCommand
+     * @see com.github.nigthcrawlerx1.jdacommands.commands.help.DefaultHelpCommand
      */
     @Deprecated
     public CommandBuilder addHelpLabels(@Nonnull Collection<String> labels) {
@@ -487,7 +487,7 @@ public class CommandBuilder {
      * By default, it will always be the color of the self member.
      * @param color The color to set. To set this to self member color, set it to null.
      * @return The current object. This is to use fluent interface.
-     * @see DefaultHelpCommand
+     * @see com.github.nigthcrawlerx1.jdacommands.commands.help.DefaultHelpCommand
      */
     public CommandBuilder setHelpCommandColor(@Nullable Color color) {
         this.helpColor = color;
@@ -576,7 +576,7 @@ public class CommandBuilder {
     /**
      * Returns every registered label for an ICommand instance in an immutable Set. Note that in case you activated isLabelIgnoreCase, every label in there will be in lower case.
      * Adding or removing something will not have any effect. This can primarily be used to get a command's aliases.
-     * @param command The {@link com.github.johnnyjayjay.discord.commandapi.ICommand ICommand} instance to get the labels from
+     * @param command The {@link com.github.nigthcrawlerx1.jdacommands.commands.ICommand ICommand} instance to get the labels from
      * @return an unmodifiable Set of labels.
      */
     public Set<String> getLabels(ICommand command) {
