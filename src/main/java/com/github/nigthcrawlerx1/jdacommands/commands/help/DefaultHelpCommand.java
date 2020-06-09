@@ -46,6 +46,6 @@ public final class DefaultHelpCommand extends AbstractHelpCommand {
 
     @Override
     public Message info(Member member, String prefix, Set<String> labels) {
-        return DEFAULT_INFO;
+        return info;
     }
 }
