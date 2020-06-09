@@ -12,7 +12,7 @@ import java.util.Set;
 
 public abstract class AbstractHelpCommand implements ICommand {
     @Override
-    public final void onCommand(CommandEvent event, String[] args) {
+    public final void onCommand(CommandEvent event,String content, String[] args) {
         CommandBuilder settings = event.getCommandSettings();
         String prefix = settings.getPrefix(event.getGuild().getIdLong());
         Map<String, ICommand> unmodifiableCommands = Collections.unmodifiableMap(settings.getCommands());

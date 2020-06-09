@@ -32,7 +32,7 @@ public abstract class AbstractCommand implements ICommand {
     }
 
     @Override
-    public void onCommand(CommandEvent event, String[] args) {
+    public void onCommand(CommandEvent event, String content, String[] args) {
         CommandBuilder settings = event.getCommandSettings();
         Optional<SubCommand> matchesArgs = subCommands.keySet().stream()
                 .filter((sub) -> !sub.isDefault())
