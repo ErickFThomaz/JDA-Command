@@ -1,0 +1,104 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
+plugins {
+    id 'java'
+    id 'com.github.ben-manes.versions' version '0.28.0'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
+}
+
+def versionObj = new Version(major: 1, minor: 0, revision: 0)
+
+group 'com.github.nigthcrawlerx1.jdacommands'
+archivesBaseName = "JDA-Commands-API"
+version "$versionObj"
+
+sourceCompatibility = targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+
+    compile 'net.dv8tion:JDA:4.1.1_161'
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+task sourcesForRelease(type: Copy) {
+    from ('src/main/java') {
+        include '**/JDACommandInfo.java'
+        filter(ReplaceTokens, tokens: [
+                versionMajor:    versionObj.major,
+                versionMinor:    versionObj.minor,
+                versionRevision: versionObj.revision,
+                versionBuild:    versionObj.build
+        ])
+    }
+    into 'build/filteredSrc'
+
+    includeEmptyDirs = false
+}
+
+task generateJavaSources(type: SourceTask) {
+    def javaSources = sourceSets.main.allJava.filter {
+        it.name != 'JDACommandInfo.java'
+    }
+    source = javaSources + sourcesForRelease.destinationDir
+
+    dependsOn sourcesForRelease
+}
+
+compileJava {
+    source = generateJavaSources.source
+
+    dependsOn generateJavaSources
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    options.incremental = true
+    options.compilerArgs += ["-Xlint:deprecation", "-Xlint:unchecked"]
+}
+
+compileTestJava.enabled = false
+processTestResources.enabled = false
+
+jar {
+    baseName = project.name
+    manifest.attributes 'Implementation-Version': version
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    options.incremental = true
+}
+
+shadowJar {
+    classifier = "withDependencies"
+    exclude 'module-info.class'
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from ('src/main/java') {
+        exclude '**/JDACommandInfo.java'
+    }
+    from sourcesForRelease.destinationDir
+
+    dependsOn sourcesForRelease
+}
+
+class Version {
+    String major, minor, revision
+
+    static String getBuild() {
+        System.getenv("BUILD_NUMBER") ?: System.getProperty("BUILD_NUMBER") ?:"DEV"
+    }
+
+    String toString() {
+        "$major.$minor.${revision}_$build"
+    }
+}
