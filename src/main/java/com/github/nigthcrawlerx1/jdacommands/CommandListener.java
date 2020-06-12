@@ -31,14 +31,12 @@ public class CommandListener extends ListenerAdapter {
             ICommand cmd = builder.getCommandManager().getCommands().stream().filter(c -> Arrays.asList(c.getAliases()).contains(alias)).findFirst().orElse(null);
             if(cmd == null)
                 return;
-            new Thread(() -> {
                 CommandEvent commandEvent = new CommandEvent(cmd , event , event.getMessage().getContentRaw().substring(fprefix.length() + alias.length()).trim());
                 try {
                     cmd.invoke(commandEvent);
                 }catch (Exception ex){
                     log.error("Houve um erro ao tentar executar o comando {} . Error" , cmd.getName() , ex);
                 }
-            }).start();
         }
     }
 }
