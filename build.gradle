@@ -1,13 +1,11 @@
 import org.apache.tools.ant.filters.ReplaceTokens
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-
 plugins {
     id 'java'
     id 'com.github.ben-manes.versions' version '0.28.0'
     id 'com.github.johnrengelman.shadow' version '5.2.0'
 }
 
-def versionObj = new Version(major: 0, minor: 0, revision: 1)
+def versionObj = new Version(major: 0, minor: 0, revision: 2)
 
 group 'com.github.nigthcrawlerx1.jdacommands'
 archivesBaseName = "JDA-Commands-API"
