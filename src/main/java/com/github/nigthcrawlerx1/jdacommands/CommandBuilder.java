@@ -82,18 +82,19 @@ public class CommandBuilder {
         return commandManager;
     }
 
-    private void addListener(){
+    private void addListener() throws Exception {
         if(jda != null){
             jda.addEventListener(new CommandListener(this));
         }
         if(shardManager != null){
             shardManager.addEventListener(new CommandListener(this));
         }
-        if(shardManager == null || jda == null){
+        if(shardManager == null && jda == null){
             log.info("A instancia do JDA ou ShardManager não foi iniciada");
+            throw new Exception("A instancia do JDA ou ShardManager não foi iniciada");
         }
     }
-    public void build(){
+    public void build() throws Exception {
         commandManager = new CommandManager(src , this);
         addListener();
     }
