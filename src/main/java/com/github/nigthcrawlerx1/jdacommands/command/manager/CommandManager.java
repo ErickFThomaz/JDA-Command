@@ -29,11 +29,11 @@ public class CommandManager {
     private final Logger log = LoggerFactory.getLogger(CommandManager.class);
     private final CommandBuilder builder;
 
-    public CommandManager(@Nonnull String packege, CommandBuilder builder){
+    public CommandManager(@Nonnull String packege, @Nonnull CommandBuilder builder){
         this.builder = builder;
         long start = System.currentTimeMillis();
         log.info("Inicializando os comandos.");
-        commands = new Reflections(packege, new MethodAnnotationsScanner())
+        commands = new ArrayList<>(new Reflections(packege, new MethodAnnotationsScanner())
                 .getMethodsAnnotatedWith(RegisterCommand.class).stream()
                 .map(method -> {
                     if (method.getReturnType() != ICommand.class)
@@ -43,7 +43,7 @@ public class CommandManager {
                     } catch (Exception e) {
                         return null;
                     }
-                }).filter(Objects::nonNull).collect(Collectors.toList());
+                }).filter(Objects::nonNull).collect(Collectors.toList()));
         long end = System.currentTimeMillis();
         long count = (end - start);
         log.info("Foram registrados {} comandos em {} segundos." , commands.size() , (count / 1000));
