@@ -30,7 +30,7 @@ public class CommandListener extends ListenerAdapter {
         if (msg.startsWith(prefix = builder.getPrefix()) || msg.startsWith(prefix = builder.getAlternativePrefix()) ||
                 msg.startsWith(prefix = event.getJDA().getSelfUser().getAsMention() + " ")) {
             String fprefix = prefix, alias = msg.substring(fprefix.length()).split(" ")[0];
-            ICommand cmd = builder.getCommandManager().getCommands().stream().filter(c -> Arrays.asList(c.getAliases()).contains(alias)).findFirst().orElse(null);
+            ICommand cmd = builder.getCommandManager().getCommands().stream().filter(c -> Arrays.stream(c.getAliases()).anyMatch(x -> x.equals(alias))).findFirst().orElse(null);
 
             if(cmd == null)
                 return;
