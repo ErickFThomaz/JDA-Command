@@ -36,7 +36,7 @@ public class CommandListener extends ListenerAdapter {
                 try {
                     cmd.invoke(commandEvent);
                 }catch (Exception ex){
-                    log.error("Houve um erro ao tentar executar o comando {} . Error {}:{}" , cmd.getName() , ex.getMessage() , ex.getLocalizedMessage());
+                    log.error("Houve um erro ao tentar executar o comando {} . Error" , cmd.getName() , ex);
                 }
             }).start();
         }
