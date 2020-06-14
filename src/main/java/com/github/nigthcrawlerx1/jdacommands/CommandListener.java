@@ -2,6 +2,7 @@ package com.github.nigthcrawlerx1.jdacommands;
 
 import com.github.nigthcrawlerx1.jdacommands.command.CommandEvent;
 import com.github.nigthcrawlerx1.jdacommands.command.ICommand;
+import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.slf4j.Logger;
@@ -41,7 +42,7 @@ public class CommandListener extends ListenerAdapter {
 
                 if(cmd.requireRole()){
                     if(cmd.roleName() != null) {
-                        if (!event.getMember().getRoles().contains(cmd.roleName())) {
+                        if (!haveRole(commandEvent)) {
                             commandEvent.sendMessage("Você precisa ter o cargo `%s` para poder usar este comando.", cmd.roleName());
                             return;
                         }
@@ -60,5 +61,13 @@ public class CommandListener extends ListenerAdapter {
                     log.error("Houve um erro ao tentar executar o comando {} . Error" , cmd.getName() , ex);
                 }
         }
+    }
+
+    public static boolean haveRole(CommandEvent event){
+        Role m = event.getGuild().getRolesByName(event.getCommand().roleName() , true).get(0);
+        if(event.getGuild().getMember(event.getAuthor()).getRoles().contains(m)){
+            return true;
+        }
+        return false;
     }
 }
