@@ -87,8 +87,9 @@ public interface ICommand {
             return this;
         }
 
-        public void setPermissions(Permission... perms) {
+        public Builder setPermissions(Permission... perms) {
             this.perms = perms;
+            return this;
         }
 
         public ICommand build(){
