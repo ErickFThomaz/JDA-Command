@@ -47,7 +47,6 @@ public class CommandListener extends ListenerAdapter {
                             return;
                         }
                     }
-                    return;
                 }
                 if(cmd.perms() != null){
                     if(!commandEvent.getMember().hasPermission(cmd.perms())){
