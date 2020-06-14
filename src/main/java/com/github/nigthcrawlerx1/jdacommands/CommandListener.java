@@ -31,7 +31,27 @@ public class CommandListener extends ListenerAdapter {
             ICommand cmd = builder.getCommandManager().getCommands().stream().filter(c -> Arrays.asList(c.getAliases()).contains(alias)).findFirst().orElse(null);
             if(cmd == null)
                 return;
+
                 CommandEvent commandEvent = new CommandEvent(cmd , event , event.getMessage().getContentRaw().substring(fprefix.length() + alias.length()).trim());
+
+                if(cmd.guildOwner() && !commandEvent.getMember().isOwner()){
+                    commandEvent.sendMessage("Somente o dono desse canal pode usar este comando.");
+                    return;
+                }
+
+                if(cmd.requireRole()){
+                    if(!Objects.requireNonNull(event.getMember()).getRoles().contains(cmd.roleName())){
+                        commandEvent.sendMessage("Você precisa ter o cargo `%s` para poder usar este comando." , cmd.roleName());
+                        return;
+                    }
+                    return;
+                }
+                if(cmd.perms() != null){
+                    if(!commandEvent.getMember().hasPermission(cmd.perms())){
+                        commandEvent.sendMessage("Você precisa da permissão %s para poder usar este comando.", cmd.perms());
+                        return;
+                    }
+                }
                 try {
                     cmd.invoke(commandEvent);
                 }catch (Exception ex){

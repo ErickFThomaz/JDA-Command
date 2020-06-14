@@ -1,6 +1,7 @@
 package com.github.nigthcrawlerx1.jdacommands.command;
 
 import com.github.nigthcrawlerx1.jdacommands.command.category.ICategory;
+import net.dv8tion.jda.api.Permission;
 
 import java.util.function.Consumer;
 
@@ -26,11 +27,14 @@ public interface ICommand {
 
     boolean isOwnerOnly();
 
+    Permission[] perms();
+
     class Builder {
         private Consumer<CommandEvent> action;
         private String name, description, usage , roleName;
         private String[] aliases;
         private boolean guildOwner, ownerOnly , requireRole;
+        private Permission[] perms;
         ICategory category;
 
         public Builder setAction(Consumer<CommandEvent> action) {
@@ -83,6 +87,10 @@ public interface ICommand {
             return this;
         }
 
+        public void setPermissions(Permission... perms) {
+            this.perms = perms;
+        }
+
         public ICommand build(){
             return new ICommand() {
                 @Override
@@ -133,6 +141,11 @@ public interface ICommand {
                 @Override
                 public boolean isOwnerOnly() {
                     return ownerOnly;
+                }
+
+                @Override
+                public Permission[] perms() {
+                    return perms;
                 }
             };
         }
