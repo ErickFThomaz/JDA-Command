@@ -67,6 +67,10 @@ public class CommandEvent {
         getChannel().sendMessage(message).queue(consumer , throwable);
     }
 
+    public void sendMessage(String message , Consumer<? super Message> consumer , Consumer<? super Throwable> throwable) {
+        getChannel().sendMessage(message).queue(consumer , throwable);
+    }
+
     public void sendMessage(MessageEmbed message , Consumer<? super Message> consumer) {
         getChannel().sendMessage(message).queue(consumer);
     }
