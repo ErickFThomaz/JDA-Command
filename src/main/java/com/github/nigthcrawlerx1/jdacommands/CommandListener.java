@@ -64,9 +64,6 @@ public class CommandListener extends ListenerAdapter {
 
     public static boolean haveRole(CommandEvent event){
         Role m = event.getGuild().getRolesByName(event.getCommand().roleName() , true).get(0);
-        if(event.getGuild().getMember(event.getAuthor()).getRoles().contains(m) || event.getMember().isOwner()){
-            return true;
-        }
-        return false;
+        return event.getGuild().getMember(event.getAuthor()).getRoles().contains(m) || event.getMember().isOwner();
     }
 }
