@@ -51,7 +51,7 @@ public class CommandEvent {
         getChannel().sendMessage(message).queue();
     }
 
-    public void sendMessage(String message , Object... objects) {
+    public void sendMessageFormat(String message , Object... objects) {
         getChannel().sendMessageFormat(message , objects).queue();
     }
 
@@ -61,6 +61,10 @@ public class CommandEvent {
 
     public void sendMessage(Message message , Consumer<? super Message> consumer) {
         getChannel().sendMessage(message).queue(consumer);
+    }
+
+    public void sendMessage(Message message , Consumer<? super Message> consumer , Consumer<? super Throwable> throwable) {
+        getChannel().sendMessage(message).queue(consumer , throwable);
     }
 
     public void sendMessage(MessageEmbed message , Consumer<? super Message> consumer) {

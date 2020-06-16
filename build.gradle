@@ -5,7 +5,7 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '5.2.0'
 }
 
-def versionObj = new Version(major: 0, minor: 0, revision: 2)
+def versionObj = new Version(major: 0, minor: 0, revision: 3)
 
 group 'com.github.nigthcrawlerx1.jdacommands'
 archivesBaseName = "JDA-Commands-API"
@@ -66,6 +66,7 @@ processTestResources.enabled = false
 
 jar {
     baseName = project.name
+    classifier = "noDependencies"
     manifest.attributes 'Implementation-Version': version
 }
 
