@@ -43,14 +43,14 @@ public class CommandListener extends ListenerAdapter {
                 if(cmd.requireRole()){
                     if(cmd.roleName() != null) {
                         if (!haveRole(commandEvent)) {
-                            commandEvent.sendMessage("Você precisa ter o cargo `%s` para poder usar este comando.", cmd.roleName());
+                            commandEvent.sendMessageFormat("Você precisa ter o cargo `%s` para poder usar este comando.", cmd.roleName());
                             return;
                         }
                     }
                 }
                 if(cmd.perms() != null){
                     if(!commandEvent.getMember().hasPermission(cmd.perms())){
-                        commandEvent.sendMessage("Você precisa da permissão %s para poder usar este comando.", cmd.perms());
+                        commandEvent.sendMessageFormat("Você precisa da permissão %s para poder usar este comando.", cmd.perms());
                         return;
                     }
                 }
