@@ -1,8 +1,0 @@
-# Enabling / Disabling Schema Diff
-diff: true # enabled by default
-
-# Your main / target branch
-branch: 'master'
-
-# A path to a schema file
-schema: 'schema.graphql'
