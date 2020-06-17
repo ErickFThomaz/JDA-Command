@@ -1,13 +1,6 @@
 # Enabling / Disabling Schema Diff
 diff: true # enabled by default
 
-# Customizing Schema Diff
-diff:
-  # Pull Request annotations (enabled by default)
-  annotations: true
-  # Fail on breaking changes or force SUCCESS when disabled (enabled by default)
-  failOnBreaking: true
-
 # Your main / target branch
 branch: 'master'
 
