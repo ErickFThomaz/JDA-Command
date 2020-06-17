@@ -4,3 +4,7 @@ install: true
 
 jdk:
   - openjdk8
+  
+  script:
+  - chmod +x gradlew
+  - env "TAG=$TRAVIS_TAG" ./gradlew ci
