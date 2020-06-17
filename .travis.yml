@@ -1,4 +1,4 @@
-language: ruby
+language: java
 rvm:
  - 1.8
  - java
