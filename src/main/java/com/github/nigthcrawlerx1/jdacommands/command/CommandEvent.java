@@ -1,5 +1,21 @@
 package com.github.nigthcrawlerx1.jdacommands.command;
 
+/*
+ *   Copyright 2020 Erick (NightCrawlerX1 / NightCrawlerX)
+ *
+ *   Licensed under the Apache License, Version 2.0 (the "License");
+ *   you may not use this file except in compliance with the License.
+ *   You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *   Unless required by applicable law or agreed to in writing, software
+ *   distributed under the License is distributed on an "AS IS" BASIS,
+ *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *   See the License for the specific language governing permissions and
+ *   limitations under the License.
+ */
+
 import com.github.nigthcrawlerx1.jdacommands.utils.StringUtils;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
@@ -43,6 +59,8 @@ public class CommandEvent {
         return getEvent().getJDA();
     }
 
+
+    //Normals
     public void sendMessage(Message message) {
         getChannel().sendMessage(message).queue();
     }
@@ -55,20 +73,14 @@ public class CommandEvent {
         getChannel().sendMessageFormat(message , objects).queue();
     }
 
-    public void sendFormat(String message, Object... format) {
-        getChannel().sendMessageFormat(message, format).queue();
+    public void sendMessage(MessageEmbed embed) {
+        getChannel().sendMessage(embed).queue();
     }
+
+    //Consumers <Message>
 
     public void sendMessage(Message message , Consumer<? super Message> consumer) {
         getChannel().sendMessage(message).queue(consumer);
-    }
-
-    public void sendMessage(Message message , Consumer<? super Message> consumer , Consumer<? super Throwable> throwable) {
-        getChannel().sendMessage(message).queue(consumer , throwable);
-    }
-
-    public void sendMessage(String message , Consumer<? super Message> consumer , Consumer<? super Throwable> throwable) {
-        getChannel().sendMessage(message).queue(consumer , throwable);
     }
 
     public void sendMessage(MessageEmbed message , Consumer<? super Message> consumer) {
@@ -78,8 +90,17 @@ public class CommandEvent {
         getChannel().sendMessage(message).queue(consumer);
     }
 
-    public void sendMessage(MessageEmbed embed) {
-        getChannel().sendMessage(embed).queue();
+    //Consumers<Message , Throwable>
+    public void sendMessage(String message , Consumer<? super Message> consumer , Consumer<? super Throwable> throwable) {
+        getChannel().sendMessage(message).queue(consumer , throwable);
+    }
+
+    public void sendMessage(Message message , Consumer<? super Message> consumer , Consumer<? super Throwable> throwable) {
+        getChannel().sendMessage(message).queue(consumer , throwable);
+    }
+
+    public void sendMessage(MessageEmbed message , Consumer<? super Message> consumer , Consumer<? super Throwable> throwable) {
+        getChannel().sendMessage(message).queue(consumer , throwable);
     }
 
     public Member getMember() {

@@ -1,5 +1,21 @@
 package com.github.nigthcrawlerx1.jdacommands.command.manager;
 
+/*
+ *   Copyright 2020 Erick (NightCrawlerX1 / NightCrawlerX)
+ *
+ *   Licensed under the Apache License, Version 2.0 (the "License");
+ *   you may not use this file except in compliance with the License.
+ *   You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *   Unless required by applicable law or agreed to in writing, software
+ *   distributed under the License is distributed on an "AS IS" BASIS,
+ *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *   See the License for the specific language governing permissions and
+ *   limitations under the License.
+ */
+
 import com.github.nigthcrawlerx1.jdacommands.CommandBuilder;
 import com.github.nigthcrawlerx1.jdacommands.annotations.RegisterCommand;
 import com.github.nigthcrawlerx1.jdacommands.command.CommandEvent;
@@ -15,7 +31,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
-import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,17 +38,35 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * Aqui os comandos são registrados conforme o {@link org.reflections.Reflections Reflections}
+ * encontra os comandos usando {@link org.reflections.scanners.MethodAnnotationsScanner MethodAnnotationsScanner}
+ * para encontrar as classes apartir do seu packege que você definiu em {@link com.github.nigthcrawlerx1.jdacommands.CommandBuilder CommandBuilder}
+ * para ele encontrar os comandos que estão usando a classe de registro de comandos {@link com.github.nigthcrawlerx1.jdacommands.annotations.RegisterCommand RegisterCommand}
+ * e adicionar em {@link java.util.List List} todos os comandos encontrados.
+ *
+ * @author Erick
+ * @see com.github.nigthcrawlerx1.jdacommands.CommandBuilder#setPackegeCommands(String)
+ * @see com.github.nigthcrawlerx1.jdacommands.annotations.RegisterCommand RegisterCommand
+ * @see com.github.nigthcrawlerx1.jdacommands.command.ICommand ICommand
+ * @since 0.0.1
+ */
 public class CommandManager {
 
     private final List<ICommand> commands;
     private final Logger log = LoggerFactory.getLogger(CommandManager.class);
     private final CommandBuilder builder;
 
-    public CommandManager(@Nonnull String packege, @Nonnull CommandBuilder builder){
+    /**
+     *
+     * @param builder
+     *        O {@link com.github.nigthcrawlerx1.jdacommands.CommandBuilder} não pode ser nulo aqui para que ele posso iniciar corretamente o registro de comandos.
+     */
+    public CommandManager(@Nonnull CommandBuilder builder){
         this.builder = builder;
         long start = System.currentTimeMillis();
         log.info("Inicializando os comandos.");
-        commands = new ArrayList<>(new Reflections(packege, new MethodAnnotationsScanner())
+        commands = new ArrayList<>(new Reflections(builder.getPackege(), new MethodAnnotationsScanner())
                 .getMethodsAnnotatedWith(RegisterCommand.class).stream()
                 .map(method -> {
                     if (method.getReturnType() != ICommand.class)
@@ -49,12 +82,21 @@ public class CommandManager {
         log.info("Foram registrados {} comandos em {} segundos." , commands.size() , (count / 1000));
     }
 
+    /**
+     *
+     * @param category
+     * @return Todos os comandos da {@link ICategory} especifica.
+     */
     public List<ICommand> getCommands(ICategory category) {
         return commands.stream().filter(command -> category.equals(command.getCategory())).collect(Collectors.toList());
     }
 
     public void invoke(CommandEvent event) {
         ICommand cmd = event.getCommand();
+        if(cmd.isOwnerOnly() && builder.getOwners().isEmpty()){
+            event.sendMessage("Desculpe mas a lista de donos está vazia e não posso deixar você executar isso.");
+            return;
+        }
         if (cmd.isOwnerOnly() && !builder.isOwner(event.getAuthor())) {
             event.sendMessage("Este comando só pode ser usado pelos donos.");
             return;

@@ -1,5 +1,21 @@
 package com.github.nigthcrawlerx1.jdacommands.command;
 
+/*
+ *   Copyright 2020 Erick (NightCrawlerX1 / NightCrawlerX)
+ *
+ *   Licensed under the Apache License, Version 2.0 (the "License");
+ *   you may not use this file except in compliance with the License.
+ *   You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *   Unless required by applicable law or agreed to in writing, software
+ *   distributed under the License is distributed on an "AS IS" BASIS,
+ *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *   See the License for the specific language governing permissions and
+ *   limitations under the License.
+ */
+
 import com.github.nigthcrawlerx1.jdacommands.command.category.ICategory;
 import net.dv8tion.jda.api.Permission;
 
@@ -23,6 +39,8 @@ public interface ICommand {
 
     String[] getAliases();
 
+    long getCooldown();
+
     ICategory getCategory();
 
     boolean isOwnerOnly();
@@ -35,7 +53,8 @@ public interface ICommand {
         private String[] aliases;
         private boolean guildOwner, ownerOnly , requireRole;
         private Permission[] perms;
-        ICategory category;
+        private ICategory category;
+        private long cooldown;
 
         public Builder setAction(Consumer<CommandEvent> action) {
             this.action = action;
@@ -89,6 +108,11 @@ public interface ICommand {
 
         public Builder setPermissions(Permission... perms) {
             this.perms = perms;
+            return this;
+        }
+
+        public Builder setCooldown(long cooldown) {
+            this.cooldown = cooldown;
             return this;
         }
 
@@ -147,6 +171,11 @@ public interface ICommand {
                 @Override
                 public Permission[] perms() {
                     return perms;
+                }
+
+                @Override
+                public long getCooldown() {
+                    return cooldown;
                 }
             };
         }
