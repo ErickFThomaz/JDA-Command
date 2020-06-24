@@ -81,7 +81,7 @@ public class CommandListener extends ListenerAdapter {
                 }catch (Exception ex){
                     log.error("Houve um erro ao tentar executar o comando {} . Error" , cmd.getName() , ex);
                 }
-                builder.getCooldownHandler().setCooldown(event.getGuild().getId(), event.getMember().getId(), cmd.getName(), cmd.getCooldown());
+                builder.getCooldownHandler().setCooldown(event.getGuild().getId(), event.getMember().getId(), cmd.getName() , cmd.getCooldown());
         }
     }
 

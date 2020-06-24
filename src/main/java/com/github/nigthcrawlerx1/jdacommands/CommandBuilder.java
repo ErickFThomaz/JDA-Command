@@ -125,6 +125,7 @@ public class CommandBuilder {
             throw new Exception("Não foi possivel inicar o sistema de comandos. Tente verificar se você setou uma src");
         }
         commandManager = new CommandManager(this);
+        cooldownHandler = new CooldownHandler();
         addListener();
     }
 
