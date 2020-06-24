@@ -2,26 +2,22 @@ package com.github.nigthcrawlerx1.jdacommands.utils;
 
 public class TimeUtils {
     public static String getTime(long time) {
-        long variacao = time;
-        long varsegundos = variacao / 1000 % 60;
-        long varminutos = variacao / 60000 % 60;
-        long varhoras = variacao / 3600000 % 24;
-        long vardias = variacao / 86400000 % 30;
+        final long variacao = time,
+                seconds = variacao / 1000 % 60,
+                minutes = variacao / 60000 % 60,
+                hours = variacao / 3600000 % 24,
+                days = variacao / 86400000 % 30;
 
-        String segundos = String.valueOf(varsegundos).replaceAll("-", "");
-        String minutos = String.valueOf(varminutos).replaceAll("-", "");
-        String horas = String.valueOf(varhoras).replaceAll("-", "");
-        String dias = String.valueOf(vardias).replaceAll("-", "");
+        String duration = (days == 0 ? "" : days + " dias,") + (hours == 0 ? "" : hours + " horas, ")
+                + (minutes == 0 ? "" : minutes + " minutos, ") + (seconds == 0 ? "" : seconds + " segundos, ");
 
-        if (dias.equals("0") && horas.equals("0") && minutos.equals("0")) {
-            return segundos + "segundos";
-        }
-        if (dias.equals("0") && horas.equals("0")) {
-            return minutos + "minutos " + segundos + "segundos";
-        }
-        if (dias.equals("0")) {
-            return horas + "horas " + minutos + "minutos " + segundos + "segundos";
-        }
-        return dias + "dias " + horas + "horas " + minutos + "minutos " + segundos + "segundos ";
+        duration = replaceLast(duration, ", ", "");
+
+        return replaceLast(duration, ",", " e");
+
     }
+    private static String replaceLast(String text, String regex, String replacement) {
+        return text.replaceFirst("(?s)(.*)" + regex, "$1" + replacement);
+    }
+
 }
