@@ -1,7 +1,25 @@
 package com.github.nigthcrawlerx1.jdacommands;
 
+/*
+*   Copyright 2020 Erick (NightCrawlerX1 / NightCrawlerX)
+*
+*   Licensed under the Apache License, Version 2.0 (the "License");
+*   you may not use this file except in compliance with the License.
+*   You may obtain a copy of the License at
+*
+*       http://www.apache.org/licenses/LICENSE-2.0
+*
+*   Unless required by applicable law or agreed to in writing, software
+*   distributed under the License is distributed on an "AS IS" BASIS,
+*   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+*   See the License for the specific language governing permissions and
+*   limitations under the License.
+*/
+
+
 import com.github.nigthcrawlerx1.jdacommands.command.CommandEvent;
 import com.github.nigthcrawlerx1.jdacommands.command.ICommand;
+import com.github.nigthcrawlerx1.jdacommands.utils.TimeUtils;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -54,16 +72,21 @@ public class CommandListener extends ListenerAdapter {
                         return;
                     }
                 }
+                if(builder.getCooldownHandler().getCooldown(event.getGuild().getId() , event.getMember().getId() , cmd.getName()) > 0){
+                    event.getChannel().sendMessageFormat("Você poderá usar este comando novamente em `%s`" , TimeUtils.getTime((builder.getCooldownHandler().getCooldown(event.getGuild().getId() , event.getMember().getId() , cmd.getName()))* 1000)).queue();
+                    return;
+                }
                 try {
                     cmd.invoke(commandEvent);
                 }catch (Exception ex){
                     log.error("Houve um erro ao tentar executar o comando {} . Error" , cmd.getName() , ex);
                 }
+                builder.getCooldownHandler().setCooldown(event.getGuild().getId(), event.getMember().getId(), cmd.getName(), cmd.getCooldown());
         }
     }
 
     public static boolean haveRole(CommandEvent event){
         Role m = event.getGuild().getRolesByName(event.getCommand().roleName() , true).get(0);
-        return event.getGuild().getMember(event.getAuthor()).getRoles().contains(m) || event.getMember().isOwner();
+        return Objects.requireNonNull(event.getGuild().getMember(event.getAuthor())).getRoles().contains(m) || event.getMember().isOwner();
     }
 }
