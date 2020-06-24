@@ -33,11 +33,10 @@ public class CooldownHandler {
         }
         return false;
     }
-    public boolean setCooldown(String guild, String user, String command, Long time){
+    public void setCooldown(String guild, String user, String command, Long time){
         if(!hasCooldown(guild, user, command)){
-            return cooldowns.add(new Cooldown(guild, user, (System.currentTimeMillis()/ 1000) + time, command));
+            cooldowns.add(new Cooldown(guild, user, (System.currentTimeMillis() / 1000) + time, command));
         }
-        return false;
     }
 
     public long getCooldown(String guild, String user, String command){
