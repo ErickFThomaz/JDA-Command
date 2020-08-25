@@ -4,11 +4,9 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '5.2.0'
 }
 
-def versionObj = new Version(major: 0, minor: 0, revision: 3)
-
 group 'com.github.nigthcrawlerx1.jdacommands'
 archivesBaseName = "JDA-Commands-API"
-def ver = new Version(major: 0, minor: 0, revision: 3)
+def ver = new Version(major: 0, minor: 0, revision: 4)
 version ver.toString()
 
 sourceCompatibility = targetCompatibility = 1.8
@@ -20,7 +18,7 @@ repositories {
 
 dependencies {
 
-    compile 'net.dv8tion:JDA:4.1.1_161'
+    compile 'net.dv8tion:JDA:4.2.0_198'
     compile 'org.reflections:reflections:0.9.12'
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
