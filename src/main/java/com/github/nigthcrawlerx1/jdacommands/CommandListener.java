@@ -41,13 +41,13 @@ public class CommandListener extends ListenerAdapter {
 
     @Override
     public void onGuildMessageReceived(@Nonnull GuildMessageReceivedEvent event) {
-        if (event.getAuthor().isBot() || event.getAuthor().isFake())
+        if (event.getAuthor().isBot() || event.getAuthor().isFake() || event.isWebhookMessage())
             return;
 
         String prefix, msg = event.getMessage().getContentRaw().toLowerCase();
         if (msg.startsWith(prefix = builder.getPrefix()) || msg.startsWith(prefix = builder.getAlternativePrefix()) || msg.startsWith(event.getJDA().getSelfUser().getAsMention() +" ")) {
             String fprefix = prefix, alias = msg.substring(fprefix.length()).split(" ")[0];
-            ICommand cmd = builder.getCommandManager().getCommands().stream().filter(c -> Arrays.asList(c.getAliases()).contains(alias)).findFirst().orElse(null);
+            ICommand cmd = builder.getCommandManager().getCommand(alias);
             if(cmd == null)
                 return;
 

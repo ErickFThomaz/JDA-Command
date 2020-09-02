@@ -32,10 +32,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -53,6 +50,7 @@ import java.util.stream.Collectors;
  */
 public class CommandManager {
 
+    private final HashMap<String, ICommand> commandMap = new HashMap();
     private final List<ICommand> commands;
     private final Logger log = LoggerFactory.getLogger(CommandManager.class);
     private final CommandBuilder builder;
@@ -74,9 +72,19 @@ public class CommandManager {
                     try {
                         return (ICommand) method.invoke(null);
                     } catch (Exception e) {
+                        log.warn("Failed to load ICommand from the method [" + method.getName() + "] at " + method.getDeclaringClass().getName());
+                        e.printStackTrace();
                         return null;
                     }
                 }).filter(Objects::nonNull).collect(Collectors.toList()));
+        for (ICommand iCommand : commands) {
+            for (String alias : iCommand.getAliases()) {
+                if (commandMap.containsKey(alias)){
+                    log.warn("It seems more than one ICommand with the alias [" + alias + "] has been registered! Only the last one will be executed!");
+                }
+                commandMap.put(alias, iCommand);
+            }
+        }
         long end = System.currentTimeMillis();
         long count = (end - start);
         log.info("Foram registrados {} comandos em {} segundos." , commands.size() , (count / 1000));
@@ -111,6 +119,14 @@ public class CommandManager {
 
     public List<ICommand> getCommands() {
         return commands;
+    }
+
+    public ICommand getCommand(String aliase){
+        return commandMap.get(aliase);
+    }
+
+    public HashMap<String, ICommand> getCommandMap() {
+        return commandMap;
     }
 
     public MessageEmbed getHelp(ICommand cmd, Member member) {

@@ -9,7 +9,7 @@ public class Cooldown {
     public Cooldown(String guildId, String userId, long seconds , String command){
         this.guildId = guildId;
         this.userId = userId;
-        this.seconds = seconds;
+        this.seconds = (System.currentTimeMillis() / 1000) + seconds;
         this.command = command;
     }
 
@@ -27,5 +27,17 @@ public class Cooldown {
 
     public String getUserId() {
         return userId;
+    }
+
+    public String getIdentifier(){
+        return guildId + "-" + userId + "-" + command;
+    }
+
+    public boolean isInCooldown(){
+        return seconds >= (System.currentTimeMillis() / 1000);
+    }
+
+    public long getTimeRemaining(){
+        return isInCooldown() ? seconds - (System.currentTimeMillis() / 1000) : 0;
     }
 }
