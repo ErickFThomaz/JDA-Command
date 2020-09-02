@@ -117,7 +117,7 @@ public interface ICommand {
         }
 
         public ICommand build(){
-            if (aliases.length == 0) throw new IllegalArgumentException("At least one Aliase is needed!");
+            if (aliases == null || aliases.length == 0) throw new IllegalArgumentException("At least one Aliase is needed!");
             if (name == null) name = aliases[0];
             if (action == null) throw new IllegalArgumentException("A command NEED an ACTION!");
             return new ICommand() {
