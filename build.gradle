@@ -6,7 +6,7 @@ plugins {
 
 group 'com.github.nigthcrawlerx1.jdacommands'
 archivesBaseName = "JDA-Commands-API"
-def ver = new Version(major: 0, minor: 0, revision: 4)
+def ver = new Version(major: 0, minor: 0, revision: 5)
 version ver.toString()
 
 sourceCompatibility = targetCompatibility = 1.8
