@@ -54,13 +54,13 @@ public class Argumento {
     }
 
     public Member getMemberFromID(){
-        if (!argumento.isEmpty()) return null;
+        if (argumento.isEmpty()) return null;
         Long user_id = getLong();
         return user_id == null ? null : guild.getMemberById(user_id);
     }
 
     public List<Member> getMembersFromName(){
-        if (!argumento.isEmpty()) return Collections.EMPTY_LIST;
+        if (argumento.isEmpty()) return Collections.EMPTY_LIST;
         return guild.getMembersByEffectiveName(argumento.startsWith("@") ? argumento.substring(1) : argumento, true);
     }
 
