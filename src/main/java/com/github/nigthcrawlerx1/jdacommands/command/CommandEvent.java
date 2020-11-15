@@ -16,6 +16,7 @@ package com.github.nigthcrawlerx1.jdacommands.command;
  *   limitations under the License.
  */
 
+import com.github.nigthcrawlerx1.jdacommands.command.argumento.MultiArgumentos;
 import com.github.nigthcrawlerx1.jdacommands.utils.StringUtils;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
@@ -29,18 +30,25 @@ public class CommandEvent {
     private final GuildMessageReceivedEvent event;
     private final String arguments;
     private final ICommand command;
+    private final MultiArgumentos multiArgumentos;
 
     public CommandEvent(ICommand command, GuildMessageReceivedEvent event, String arguments){
         this.command = command;
         this.event = event;
         this.arguments = arguments;
+        this.multiArgumentos = new MultiArgumentos(arguments.split(" "), event.getGuild());
     }
+
     public GuildMessageReceivedEvent getEvent() {
         return event;
     }
 
     public String getArguments() {
         return arguments;
+    }
+
+    public MultiArgumentos getArgumentos(){
+        return multiArgumentos;
     }
 
     public List<User> getMentionedUsers() {
