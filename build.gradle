@@ -13,12 +13,15 @@ sourceCompatibility = targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
-    jcenter()
+    maven {
+        name 'm2-dv8tion'
+        url 'https://m2.dv8tion.net/releases'
+    }
 }
 
 dependencies {
 
-    compile 'net.dv8tion:JDA:4.2.0_216'
+    compile 'net.dv8tion:JDA:4.3.0_310'
     compile 'org.reflections:reflections:0.9.12'
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
