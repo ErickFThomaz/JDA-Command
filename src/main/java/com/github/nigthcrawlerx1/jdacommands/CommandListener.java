@@ -72,6 +72,7 @@ public class CommandListener extends ListenerAdapter {
                         return;
                     }
                 }
+                
                 if(builder.getCooldownHandler().getCooldown(event.getGuild().getId() , event.getMember().getId() , cmd.getName()) > 0){
                     event.getChannel().sendMessageFormat("Você poderá usar este comando novamente em `%s`" , TimeUtils.getTime((builder.getCooldownHandler().getCooldown(event.getGuild().getId() , event.getMember().getId() , cmd.getName()))* 1000)).queue();
                     return;
@@ -81,6 +82,7 @@ public class CommandListener extends ListenerAdapter {
                 }catch (Exception ex){
                     log.error("Houve um erro ao tentar executar o comando {} . Error" , cmd.getName() , ex);
                 }
+                if(!builder.getOwners().contains(event.getAuthor().getId()))
                 builder.getCooldownHandler().setCooldown(event.getGuild().getId(), event.getMember().getId(), cmd.getName() , cmd.getCooldown());
         }
     }
